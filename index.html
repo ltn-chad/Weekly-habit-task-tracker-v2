@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Weekly habit & task tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --accent:#dd5f9c;
+    --pink-50: color-mix(in srgb, var(--accent) 8%, white);
+    --pink-100: color-mix(in srgb, var(--accent) 16%, white);
+    --pink-150: color-mix(in srgb, var(--accent) 24%, white);
+    --pink-200: color-mix(in srgb, var(--accent) 36%, white);
+    --pink-300: color-mix(in srgb, var(--accent) 58%, white);
+    --pink-500: var(--accent);
+    --pink-600: color-mix(in srgb, var(--accent) 82%, black);
+    --pink-700: color-mix(in srgb, var(--accent) 62%, black);
+    --ink: color-mix(in srgb, var(--accent) 35%, black);
+    --ink-soft: color-mix(in srgb, var(--accent) 22%, gray 55%);
+    --page: color-mix(in srgb, var(--accent) 6%, #f6f4f3);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--ink);padding:20px 12px 40px;
+    background:linear-gradient(135deg, var(--pink-100), var(--page), var(--pink-50));background-size:200% 200%;animation:bgShift 18s ease infinite;min-height:100vh;}
+  @keyframes bgShift{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+  .note{max-width:1000px;margin:0 auto 16px;font-size:13px;color:var(--ink-soft);background:#fff;border:1px dashed var(--pink-300);border-radius:10px;padding:10px 14px;}
+  .frame{max-width:1000px;margin:0 auto;background:#fff;border-radius:26px;padding:24px 20px 20px;border:1px solid var(--pink-150);box-shadow:0 10px 40px rgba(0,0,0,.06);position:relative;overflow:hidden;}
+  .frame::before{content:'';position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg, var(--accent), var(--pink-300), var(--accent));}
+  h1{font-size:22px;margin:0 0 14px;font-weight:700;background:linear-gradient(135deg, var(--pink-700), var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  #loading{max-width:1000px;margin:80px auto;text-align:center;color:var(--ink-soft);font-size:14px;}
+  .topbar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px;}
+  .chip{background:var(--pink-50);border:1px solid var(--pink-150);border-radius:14px;padding:8px 14px;flex:1 1 140px;min-width:130px;}
+  .chip .lbl{font-size:11px;color:var(--pink-600);font-weight:600;letter-spacing:.02em;}
+  .edit-input{border:none;background:transparent;font:inherit;color:inherit;padding:2px 3px;border-radius:4px;width:100%;font-size:13px;}
+  .edit-input:hover{background:#fff;}
+  .edit-input:focus{outline:1px solid var(--pink-300);background:#fff;}
+  .progress-section{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:20px;}
+  .card{background:var(--pink-50);border-radius:16px;padding:14px 16px;flex:1 1 260px;transition:box-shadow .15s ease;}
+  .card:hover{box-shadow:0 6px 18px rgba(0,0,0,.06);}
+  .card h2{font-size:13px;margin:0 0 12px;color:var(--pink-700);font-weight:600;}
+  .bars{display:flex;align-items:flex-end;gap:8px;height:110px;}
+  .bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;}
+  .bar-track{width:100%;max-width:22px;height:80px;background:var(--pink-100);border-radius:6px;display:flex;align-items:flex-end;overflow:hidden;margin:0 auto;}
+  .bar-fill{width:100%;background:var(--pink-500);border-radius:6px 6px 0 0;transition:height .25s ease;}
+  .bar-col span{font-size:10px;color:var(--ink-soft);}
+  .donut-wrap{display:flex;align-items:center;gap:16px;}
+  .donut{width:96px;height:96px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:0 0 auto;transition:background .25s ease;}
+  .donut-inner{width:68px;height:68px;border-radius:50%;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .donut-inner b{font-size:18px;}
+  .donut-inner span{font-size:9px;color:var(--ink-soft);}
+  .donut-caption{font-size:12px;color:var(--ink-soft);}
+  table.habits{width:100%;border-collapse:collapse;font-size:12px;}
+  table.habits th{font-size:11px;color:var(--pink-600);font-weight:600;text-align:center;padding:4px 2px;}
+  table.habits th:first-child{text-align:left;}
+  table.habits td{padding:6px 2px;border-top:1px solid var(--pink-100);text-align:center;}
+  table.habits td:first-child{text-align:left;}
+  .dot{width:18px;height:18px;border-radius:6px;border:1px solid var(--pink-200);background:#fff;display:inline-block;cursor:pointer;flex:0 0 auto;transition:background .1s ease,transform .1s ease;}
+  .dot:hover{transform:scale(1.1);}
+  .dot.on{background:var(--pink-500);border-color:var(--pink-500);}
+  .hbar-wrap{display:flex;align-items:center;gap:6px;}
+  .hbar-track{flex:1;height:8px;border-radius:4px;background:var(--pink-100);overflow:hidden;min-width:50px;}
+  .hbar-fill{height:100%;background:var(--pink-500);transition:width .25s ease;}
+  .hpct{font-size:11px;color:var(--ink-soft);min-width:30px;text-align:right;}
+  .del-btn{border:none;background:transparent;color:var(--ink-soft);cursor:pointer;font-size:15px;padding:0 4px;line-height:1;}
+  .del-btn:hover{color:var(--pink-600);}
+  .add-btn{border:1px dashed var(--pink-300);background:transparent;color:var(--pink-600);border-radius:8px;font-size:12px;padding:6px 10px;cursor:pointer;width:100%;margin-top:8px;transition:background .15s ease;}
+  .add-btn:hover{background:var(--pink-50);}
+  .days-row{display:flex;gap:12px;overflow-x:auto;padding-bottom:6px;}
+  .day-card{flex:0 0 210px;border:1px solid var(--pink-150);border-radius:16px;overflow:hidden;transition:transform .15s ease,box-shadow .15s ease;}
+  .day-card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.08);}
+  .day-head{background:linear-gradient(135deg, var(--accent), var(--pink-600));color:#fff;padding:10px 12px;}
+  .day-head .dname{font-size:13px;font-weight:600;}
+  .day-body{padding:12px;}
+  .ring{width:56px;height:56px;border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;transition:background .25s ease;}
+  .ring-inner{width:40px;height:40px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;}
+  .task-row{display:flex;align-items:center;gap:6px;font-size:12px;padding:3px 0;}
+  .task-row.done .tname{text-decoration:line-through;color:var(--ink-soft);}
+  .day-foot{font-size:11px;color:var(--ink-soft);margin-top:6px;text-align:right;}
+  .swatch{width:20px;height:20px;border-radius:50%;border:1px solid rgba(0,0,0,.15);cursor:pointer;flex:0 0 auto;}
+  #themeColor{width:28px;height:28px;border:none;padding:0;background:none;cursor:pointer;}
+  .goals-card{background:var(--pink-50);border-radius:16px;padding:14px 16px;margin-bottom:20px;}
+  .goal-row{padding:10px 0;border-top:1px solid var(--pink-100);}
+  .goal-row:first-child{border-top:none;padding-top:2px;}
+  .goal-top{display:flex;align-items:center;gap:6px;margin-bottom:6px;}
+  .goal-top .edit-input{font-size:13px;font-weight:500;background:#fff;}
+  .goal-bottom{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+  .grange{flex:1;accent-color:var(--pink-500);}
+  .gpct{font-size:11px;color:var(--ink-soft);min-width:32px;text-align:right;}
+
+  .auth-btn{border-radius:10px;padding:8px 16px;font-size:13px;cursor:pointer;transition:transform .08s ease,filter .15s ease,box-shadow .15s ease;border:1px solid transparent;font-family:inherit;}
+  .auth-btn:active{transform:scale(.96);}
+  .auth-btn.primary{background:var(--accent);color:#fff;border:1px solid var(--accent);box-shadow:0 4px 14px color-mix(in srgb, var(--accent) 40%, transparent);}
+  .auth-btn.primary:hover{filter:brightness(1.06);transform:translateY(-1px);box-shadow:0 6px 18px color-mix(in srgb, var(--accent) 50%, transparent);}
+  .auth-btn.ghost{background:#fff;color:var(--pink-700);border:1px solid var(--pink-200);}
+  .auth-btn.ghost:hover{background:var(--pink-50);}
+  .auth-btn.link{background:none;border:none;color:var(--pink-600);text-decoration:underline;padding:6px 4px;font-size:12px;}
+  .auth-btn:disabled{opacity:.55;cursor:default;}
+  .pw-toggle{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--pink-600);cursor:pointer;user-select:none;}
+
+  .avatar-picker{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);z-index:5;background:#fff;border:1px solid var(--pink-200);border-radius:12px;padding:8px;display:flex;gap:5px;flex-wrap:wrap;width:170px;box-shadow:0 8px 22px rgba(0,0,0,.12);}
+  .avatar-opt{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--pink-50);border:1px solid var(--pink-150);cursor:pointer;font-size:15px;}
+  .avatar-opt:hover{background:var(--pink-100);}
+  .avatar-big{width:84px;height:84px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto;cursor:pointer;overflow:hidden;border:3px solid var(--pink-200);box-shadow:0 6px 18px color-mix(in srgb, var(--accent) 35%, transparent);}
+  .avatar-big.small{width:40px;height:40px;font-size:17px;border-width:2px;margin:0;}
+
+  #authGate{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:20px;overflow:hidden;
+    background:
+      radial-gradient(circle at 15% 20%, color-mix(in srgb, var(--accent) 60%, #6c5ce7) 0%, transparent 45%),
+      radial-gradient(circle at 85% 25%, color-mix(in srgb, var(--accent) 75%, #ff7eb3) 0%, transparent 45%),
+      radial-gradient(circle at 50% 90%, color-mix(in srgb, var(--accent) 45%, #ffc36c) 0%, transparent 45%),
+      linear-gradient(135deg, #201530, #3a2050 60%, #1c1030);
+    background-size:180% 180%;
+    animation:gateBg 22s ease infinite;
+  }
+  @keyframes gateBg{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+  .blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5;animation:floaty 11s ease-in-out infinite;pointer-events:none;}
+  .blob1{width:260px;height:260px;background:var(--accent);top:-70px;left:-60px;}
+  .blob2{width:220px;height:220px;background:#6c5ce7;bottom:-50px;right:-40px;animation-delay:2.5s;}
+  .blob3{width:180px;height:180px;background:#ffc36c;top:35%;right:8%;animation-delay:5s;}
+  @keyframes floaty{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-26px) scale(1.06);}}
+  .auth-card{position:relative;z-index:2;background:rgba(255,255,255,.94);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-radius:28px;padding:30px 26px;max-width:380px;width:100%;box-shadow:0 25px 80px rgba(0,0,0,.35), 0 0 50px color-mix(in srgb, var(--accent) 30%, transparent);border:1px solid rgba(255,255,255,.6);animation:fadeUp .5s ease;text-align:center;}
+  .brand-title{font-size:24px;font-weight:700;background:linear-gradient(135deg, var(--accent), #6c5ce7);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:2px;}
+  .brand-sub{font-size:13px;color:var(--ink-soft);margin-bottom:16px;}
+  .gate-field{margin-bottom:10px;position:relative;text-align:left;}
+  .gate-field input{width:100%;border:1px solid var(--pink-200);border-radius:12px;padding:11px 14px;font-size:14px;font-family:inherit;}
+  .gate-field input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb, var(--accent) 16%, transparent);}
+  .gate-submit{width:100%;padding:12px;font-size:14px;font-weight:600;margin-top:4px;}
+  .gate-links{display:flex;justify-content:space-between;margin-top:12px;}
+  .gate-avatar-wrap{position:relative;display:inline-block;margin-bottom:8px;}
+
+  #appBar{display:none;max-width:1000px;margin:0 auto 16px;align-items:center;gap:12px;background:#fff;border:1px solid var(--pink-150);border-radius:16px;padding:10px 16px;box-shadow:0 4px 14px rgba(0,0,0,.04);}
+  #appBar .app-name{display:flex;flex-direction:column;gap:2px;}
+  #appBar .app-name b{font-size:13px;}
+  .app-avatar-wrap{position:relative;}
+</style>
+</head>
+<body>
+
+<div id="authGate">
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
+  <div class="blob blob3"></div>
+  <div class="auth-card">
+    <div class="brand-title">🌸 Habit Tracker</div>
+    <div class="brand-sub" id="gateSubtitle">Create your account to start tracking</div>
+
+    <div id="gateAvatarSection">
+      <div class="gate-avatar-wrap">
+        <div class="avatar-big" id="gateAvatarIcon" title="Choose an avatar">🙂</div>
+        <div class="avatar-picker" id="gateAvatarPicker" style="display:none;"></div>
+      </div>
+      <input type="file" id="gateAvatarUpload" accept="image/*" style="display:none;">
+      <div><button type="button" class="auth-btn link" id="gateAvatarUploadBtn">Upload a photo</button></div>
+    </div>
+
+    <div class="gate-field" id="userField"><input id="authUser" placeholder="Username" autocomplete="username"></div>
+    <div class="gate-field" id="emailField"><input id="authEmail" type="email" placeholder="Email (for password recovery)" autocomplete="email"></div>
+    <div class="gate-field" id="passField"><input id="authPass" type="password" placeholder="Password (6+ characters)" autocomplete="current-password"><span class="pw-toggle" id="pwToggle">show</span></div>
+    <div class="gate-field" id="resetUserField" style="display:none;"><input id="resetUser" placeholder="Your username"></div>
+
+    <button class="auth-btn primary gate-submit" id="submitBtn">Create account</button>
+
+    <div class="gate-links">
+      <span class="auth-btn link" id="switchModeBtn">Have an account? Log in</span>
+      <span class="auth-btn link" id="forgotLink">Forgot password?</span>
+    </div>
+    <div class="auth-msg" id="authMsg" style="font-size:12px;color:var(--ink-soft);min-height:16px;">&nbsp;</div>
+  </div>
+</div>
+
+<div id="loading">Loading…</div>
+
+<div id="appBar">
+  <div class="app-avatar-wrap">
+    <div class="avatar-big small" id="appAvatarIcon" title="Change avatar">🙂</div>
+    <div class="avatar-picker" id="appAvatarPicker" style="display:none;"></div>
+  </div>
+  <input type="file" id="appAvatarUpload" accept="image/*" style="display:none;">
+  <div class="app-name"><b id="appName"></b><button type="button" class="auth-btn link" id="appAvatarUploadBtn" style="padding:0;">change photo</button></div>
+  <div style="flex:1;"></div>
+  <button class="auth-btn ghost" id="logoutBtn">Log out</button>
+</div>
+
+<div class="note" style="display:none" id="noteBox">Edit any text, add or remove habits/tasks — autosaves to your account. <b id="saveBadge" style="color:#a32d2d"></b></div>
+
+<div class="frame" style="display:none" id="mainFrame">
+  <h1>Weekly habit &amp; task tracker</h1>
+  <div class="topbar">
+    <div class="chip"><div class="lbl">Start of the week</div><input class="edit-input" id="m-startOfWeek"></div>
+    <div class="chip"><div class="lbl">Weekly focus</div><input class="edit-input" id="m-weeklyFocus"></div>
+    <div class="chip"><div class="lbl">Reward</div><input class="edit-input" id="m-reward"></div>
+    <div class="chip"><div class="lbl">Affirmation</div><input class="edit-input" id="m-affirmation"></div>
+    <div class="chip" style="flex:0 0 auto;">
+      <div class="lbl">Theme colour</div>
+      <div style="display:flex;align-items:center;gap:6px;margin-top:3px;">
+        <input type="color" id="themeColor">
+        <div id="swatches" style="display:flex;gap:4px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="progress-section">
+    <div class="card"><h2>Overall progress</h2><div class="bars" id="bars"></div></div>
+    <div class="card"><h2>This week</h2>
+      <div class="donut-wrap">
+        <div class="donut" id="donut"><div class="donut-inner"><b id="donutPct">0%</b><span>done</span></div></div>
+        <div class="donut-caption" id="donutCaption">0 / 0 tasks</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="goals-card">
+    <h2 style="font-size:13px;margin:0 0 12px;color:var(--pink-700);font-weight:600;">Monthly goals</h2>
+    <div id="goalsBody"></div>
+    <button class="add-btn" id="addGoalBtn">+ add goal</button>
+    <div class="chip" style="margin-top:12px;max-width:280px;">
+      <div class="lbl">Monthly reward</div>
+      <input class="edit-input" id="m-monthlyReward">
+    </div>
+  </div>
+
+  <table class="habits">
+    <thead><tr><th>Habit</th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th><th>S</th><th style="min-width:90px">Weekly</th><th></th></tr></thead>
+    <tbody id="habitBody"></tbody>
+  </table>
+  <button class="add-btn" id="addHabitBtn">+ add habit</button>
+
+  <div style="height:20px"></div>
+  <div class="days-row" id="daysRow"></div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+<script>
+let state = null;
+let currentUser = null;
+
+function todayISO(){
+  const d = new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+
+function defaultState(){
+  return {
+    theme:'#dd5f9c',
+    avatar:'🙂',
+    avatarImage:'',
+    lastActiveDate: todayISO(),
+    meta:{startOfWeek:'31 Aug', weeklyFocus:'Friday presentation', reward:'New book', affirmation:'I show up for myself', monthlyReward:'A spa day'},
+    monthlyGoals:[
+      {text:'Finish the certification course', progress:40},
+      {text:'Save 5,000 extra this month', progress:20}
+    ],
+    habits:[
+      {name:'Wake up early', checks:[true,true,false,false,true,false,false]},
+      {name:'Skincare routine', checks:[true,true,true,true,true,true,true]},
+      {name:'Cold shower', checks:[true,false,false,false,true,false,false]},
+      {name:'Workout / gym', checks:[true,false,true,false,true,true,false]},
+      {name:'Meal prep', checks:[false,true,false,false,false,true,false]},
+      {name:'Read / journal', checks:[false,true,true,false,true,false,true]},
+      {name:'Meditate', checks:[true,false,false,false,false,false,true]},
+      {name:'No sugar', checks:[false,false,true,false,true,false,true]}
+    ],
+    days:[
+      {name:'Mon', tasks:[{text:'Morning skincare',done:true},{text:'Check emails',done:true},{text:'30-min workout',done:false}]},
+      {name:'Tue', tasks:[{text:'Meal prep',done:true},{text:'Read 10 pages',done:true},{text:'Evening walk',done:true}]},
+      {name:'Wed', tasks:[{text:'Declutter one space',done:true},{text:'Journal',done:false},{text:'Call a friend',done:false}]},
+      {name:'Thu', tasks:[{text:'Grocery shopping',done:false},{text:'Laundry',done:false},{text:'Stretch / yoga',done:false}]},
+      {name:'Fri', tasks:[{text:'Weekly review',done:true},{text:'Plan next week',done:true},{text:'Treat yourself',done:false}]},
+      {name:'Sat', tasks:[{text:'Family time',done:true},{text:'Meal prep for week',done:true},{text:'Deep clean',done:false}]},
+      {name:'Sun', tasks:[{text:'Rest / relax',done:true},{text:'Set weekly focus',done:true},{text:'Prep for Monday',done:true}]}
+    ]
+  };
+}
+
+function applyDailyReset(){
+  const today = todayISO();
+  if(state.lastActiveDate !== today){
+    state.habits.forEach(function(h){ h.checks = h.checks.map(function(){ return false; }); });
+    state.days.forEach(function(d){ d.tasks.forEach(function(t){ t.done = false; }); });
+    state.lastActiveDate = today;
+    return true;
+  }
+  return false;
+}
+
+function fillDefaults(){
+  if(!state) state = defaultState();
+  if(!state.theme) state.theme = '#dd5f9c';
+  if(!state.avatar) state.avatar = '🙂';
+  if(state.avatarImage === undefined) state.avatarImage = '';
+  if(!state.monthlyGoals) state.monthlyGoals = [];
+  if(!state.meta.monthlyReward) state.meta.monthlyReward = '';
+  if(!state.lastActiveDate) state.lastActiveDate = todayISO();
+}
+
+// ---------- Firebase ----------
+const firebaseConfig = {
+  apiKey: "AIzaSyAM2ltD7bKfGvsPi2ub4rSa9zDiyTfevMA",
+  authDomain: "ltn-chad-80802.firebaseapp.com",
+  projectId: "ltn-chad-80802",
+  storageBucket: "ltn-chad-80802.firebasestorage.app",
+  messagingSenderId: "821934147958",
+  appId: "1:821934147958:web:8cfb32b2ee768828f99257"
+};
+let auth = null, db = null, fbReady = false;
+try{
+  firebase.initializeApp(firebaseConfig);
+  auth = firebase.auth();
+  db = firebase.firestore();
+  fbReady = true;
+}catch(e){ console.error('Firebase init failed', e); }
+
+function setAuthMsg(msg){ const el = document.getElementById('authMsg'); if(el) el.textContent = msg || '\u00a0'; }
+function displayNameFor(user){ return user.displayName || (user.email ? user.email.split('@')[0] : ''); }
+
+// ---------- Avatar picker (shared between gate + app bar) ----------
+const AVATAR_PRESETS = ['🙂','😎','🌸','🔥','🐱','🌟','🦄','☕','💪','📚'];
+
+function renderAvatarInto(iconId, avatar, avatarImage){
+  const el = document.getElementById(iconId);
+  if(avatarImage) el.innerHTML = '<img src="'+avatarImage+'" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';
+  else el.textContent = avatar || '🙂';
+}
+
+function setupAvatarPicker(iconId, pickerId, uploadId, uploadBtnId, onSelect){
+  const icon = document.getElementById(iconId);
+  const picker = document.getElementById(pickerId);
+  AVATAR_PRESETS.forEach(function(a){
+    const opt = document.createElement('div');
+    opt.className = 'avatar-opt';
+    opt.textContent = a;
+    opt.addEventListener('click', function(){
+      onSelect(a, '');
+      picker.style.display = 'none';
+    });
+    picker.appendChild(opt);
+  });
+  icon.addEventListener('click', function(){
+    picker.style.display = picker.style.display === 'none' ? 'flex' : 'none';
+  });
+  document.getElementById(uploadBtnId).addEventListener('click', function(){ document.getElementById(uploadId).click(); });
+  document.getElementById(uploadId).addEventListener('change', function(e){
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = function(ev){
+      const img = new Image();
+      img.onload = function(){
+        const size = 96;
+        const canvas = document.createElement('canvas');
+        canvas.width = size; canvas.height = size;
+        const ctx = canvas.getContext('2d');
+        const s = Math.min(img.width, img.height);
+        ctx.drawImage(img, (img.width-s)/2, (img.height-s)/2, s, s, 0, 0, size, size);
+        onSelect('', canvas.toDataURL('image/jpeg', 0.75));
+        picker.style.display = 'none';
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+let pendingAvatar = '🙂', pendingAvatarImage = '';
+setupAvatarPicker('gateAvatarIcon','gateAvatarPicker','gateAvatarUpload','gateAvatarUploadBtn', function(a, img){
+  pendingAvatar = a; pendingAvatarImage = img;
+  renderAvatarInto('gateAvatarIcon', pendingAvatar, pendingAvatarImage);
+});
+
+function renderAvatar(){
+  renderAvatarInto('appAvatarIcon', state.avatar, state.avatarImage);
+}
+setupAvatarPicker('appAvatarIcon','appAvatarPicker','appAvatarUpload','appAvatarUploadBtn', function(a, img){
+  state.avatar = a; state.avatarImage = img;
+  renderAvatar();
+  saveState();
+});
+
+// ---------- Auth gate logic ----------
+let authMode = 'signup';
+let suppressAuthEvent = false;
+
+function updateGateMode(){
+  const isSignup = authMode === 'signup', isLogin = authMode === 'login', isReset = authMode === 'reset';
+  document.getElementById('gateAvatarSection').style.display = isSignup ? 'block' : 'none';
+  document.getElementById('emailField').style.display = isSignup ? 'block' : 'none';
+  document.getElementById('userField').style.display = isReset ? 'none' : 'block';
+  document.getElementById('passField').style.display = isReset ? 'none' : 'block';
+  document.getElementById('resetUserField').style.display = isReset ? 'block' : 'none';
+  document.getElementById('forgotLink').style.display = isReset ? 'none' : 'inline';
+  document.getElementById('gateSubtitle').textContent = isSignup ? 'Create your account to start tracking' : isLogin ? 'Welcome back' : 'Reset your password';
+  document.getElementById('submitBtn').textContent = isSignup ? 'Create account' : isLogin ? 'Log in' : 'Send reset email';
+  document.getElementById('switchModeBtn').textContent = isReset ? 'Back to log in' : (isSignup ? 'Have an account? Log in' : 'New here? Sign up');
+  setAuthMsg('');
+}
+
+document.getElementById('switchModeBtn').addEventListener('click', function(){
+  authMode = authMode === 'reset' ? 'login' : (authMode === 'signup' ? 'login' : 'signup');
+  updateGateMode();
+});
+document.getElementById('forgotLink').addEventListener('click', function(){
+  authMode = 'reset';
+  updateGateMode();
+});
+document.getElementById('pwToggle').addEventListener('click', function(){
+  const inp = document.getElementById('authPass');
+  const showing = inp.type === 'text';
+  inp.type = showing ? 'password' : 'text';
+  document.getElementById('pwToggle').textContent = showing ? 'show' : 'hide';
+});
+document.getElementById('authPass').addEventListener('keydown', function(e){ if(e.key === 'Enter') submitAuth(); });
+
+function setAuthLoading(isLoading){
+  document.getElementById('submitBtn').disabled = isLoading;
+  document.getElementById('switchModeBtn').style.pointerEvents = isLoading ? 'none' : 'auto';
+  if(isLoading) document.getElementById('submitBtn').textContent = '…';
+}
+
+async function submitAuth(){
+  setAuthMsg('');
+
+  if(authMode === 'reset'){
+    const u = document.getElementById('resetUser').value.trim().toLowerCase();
+    if(u.length < 3) return setAuthMsg('Enter your username.');
+    setAuthLoading(true);
+    try{
+      const doc = await db.collection('usernames').doc(u).get();
+      if(!doc.exists) setAuthMsg('No account with that username.');
+      else{
+        await auth.sendPasswordResetEmail(doc.data().email);
+        setAuthMsg('Reset email sent — check your inbox.');
+      }
+    }catch(e){ setAuthMsg('Could not send reset email: '+e.message); }
+    setAuthLoading(false);
+    updateGateModeButtons();
+    return;
+  }
+
+  const u = document.getElementById('authUser').value.trim();
+  const uKey = u.toLowerCase();
+  const p = document.getElementById('authPass').value;
+  if(u.length < 3) return setAuthMsg('Username needs at least 3 characters.');
+  if(p.length < 6) return setAuthMsg('Password needs at least 6 characters.');
+
+  setAuthLoading(true);
+
+  if(authMode === 'signup'){
+    const email = document.getElementById('authEmail').value.trim();
+    if(!email || email.indexOf('@') === -1){ setAuthLoading(false); updateGateModeButtons(); return setAuthMsg('Enter a valid email — needed for password recovery.'); }
+    try{
+      const existing = await db.collection('usernames').doc(uKey).get();
+      if(existing.exists){ setAuthLoading(false); updateGateModeButtons(); return setAuthMsg('That username is already taken.'); }
+      suppressAuthEvent = true;
+      const cred = await auth.createUserWithEmailAndPassword(email, p);
+      await cred.user.updateProfile({displayName:u});
+      await db.collection('usernames').doc(uKey).set({uid:cred.user.uid, email:email});
+      const initial = defaultState();
+      initial.avatar = pendingAvatar;
+      initial.avatarImage = pendingAvatarImage;
+      await db.collection('users').doc(cred.user.uid).set(initial);
+      suppressAuthEvent = false;
+      await startAuthed(auth.currentUser);
+    }catch(e){
+      suppressAuthEvent = false;
+      setAuthMsg(e.code === 'auth/email-already-in-use' ? 'That email is already registered.' : e.message);
+    }
+  }else{
+    try{
+      const doc = await db.collection('usernames').doc(uKey).get();
+      if(!doc.exists){ setAuthMsg('Wrong username or password.'); }
+      else await auth.signInWithEmailAndPassword(doc.data().email, p);
+    }catch(e){ setAuthMsg('Wrong username or password.'); }
+  }
+  setAuthLoading(false);
+  updateGateModeButtons();
+}
+function updateGateModeButtons(){
+  document.getElementById('submitBtn').textContent = authMode === 'signup' ? 'Create account' : authMode === 'login' ? 'Log in' : 'Send reset email';
+}
+document.getElementById('submitBtn').addEventListener('click', submitAuth);
+document.getElementById('logoutBtn').addEventListener('click', function(){ if(auth) auth.signOut(); });
+
+// ---------- Boot ----------
+function finishBoot(){
+  const didReset = applyDailyReset();
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('noteBox').style.display = 'block';
+  document.getElementById('mainFrame').style.display = 'block';
+  document.getElementById('appBar').style.display = 'flex';
+  renderAll();
+  if(didReset) saveState();
+}
+
+async function startAuthed(user){
+  currentUser = user;
+  document.getElementById('authGate').style.display = 'none';
+  document.getElementById('appName').textContent = displayNameFor(user);
+  try{
+    const doc = await db.collection('users').doc(user.uid).get();
+    state = doc.exists ? doc.data() : defaultState();
+    fillDefaults();
+    try{ localStorage.setItem('cache-'+user.uid, JSON.stringify(state)); }catch(e){}
+    finishBoot();
+  }catch(e){
+    let cached = null;
+    try{ const c = localStorage.getItem('cache-'+user.uid); if(c) cached = JSON.parse(c); }catch(err){}
+    state = cached || defaultState();
+    fillDefaults();
+    finishBoot();
+    const badge = document.getElementById('saveBadge');
+    if(badge) badge.textContent = 'Could not reach the sync server — showing last saved copy.';
+  }
+}
+
+function startGuest(){
+  currentUser = null;
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('authGate').style.display = 'flex';
+  document.getElementById('appBar').style.display = 'none';
+  document.getElementById('mainFrame').style.display = 'none';
+  document.getElementById('noteBox').style.display = 'none';
+  authMode = 'signup';
+  updateGateMode();
+}
+
+if(fbReady){
+  auth.onAuthStateChanged(function(user){
+    if(suppressAuthEvent) return;
+    user ? startAuthed(user) : startGuest();
+  });
+}else{
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('authGate').style.display = 'flex';
+  document.getElementById('gateSubtitle').textContent = 'Account system unavailable right now.';
+  document.getElementById('submitBtn').style.display = 'none';
+}
+
+async function saveState(){
+  if(!currentUser) return;
+  try{ localStorage.setItem('cache-'+currentUser.uid, JSON.stringify(state)); }catch(e){}
+  const badge = document.getElementById('saveBadge');
+  try{
+    await db.collection('users').doc(currentUser.uid).set(state);
+    if(badge) badge.textContent = '';
+  }catch(e){
+    if(badge) badge.textContent = 'Sync failed — check your connection (kept locally as backup)';
+  }
+}
+
+function pct(items){ if(!items.length) return 0; return Math.round(items.filter(Boolean).length/items.length*100); }
+
+const THEME_PRESETS = ['#dd5f9c','#5b8def','#8b6fd6','#4fae7a','#e08a3c','#3fb0b0'];
+
+function applyTheme(hex){
+  state.theme = hex;
+  document.documentElement.style.setProperty('--accent', hex);
+  document.getElementById('themeColor').value = hex;
+  saveState();
+}
+
+function renderTheme(){
+  document.documentElement.style.setProperty('--accent', state.theme);
+  document.getElementById('themeColor').value = state.theme;
+  const wrap = document.getElementById('swatches');
+  wrap.innerHTML = '';
+  THEME_PRESETS.forEach(function(c){
+    const sw = document.createElement('div');
+    sw.className = 'swatch';
+    sw.style.background = c;
+    sw.title = c;
+    sw.addEventListener('click', function(){ applyTheme(c); });
+    wrap.appendChild(sw);
+  });
+  document.getElementById('themeColor').oninput = function(e){
+    document.documentElement.style.setProperty('--accent', e.target.value);
+  };
+  document.getElementById('themeColor').onchange = function(e){
+    applyTheme(e.target.value);
+  };
+}
+
+function renderMeta(){
+  document.getElementById('m-startOfWeek').value = state.meta.startOfWeek;
+  document.getElementById('m-weeklyFocus').value = state.meta.weeklyFocus;
+  document.getElementById('m-reward').value = state.meta.reward;
+  document.getElementById('m-affirmation').value = state.meta.affirmation;
+  document.getElementById('m-monthlyReward').value = state.meta.monthlyReward || '';
+  ['startOfWeek','weeklyFocus','reward','affirmation','monthlyReward'].forEach(function(key){
+    document.getElementById('m-'+key).onchange = function(e){
+      state.meta[key] = e.target.value;
+      saveState();
+    };
+  });
+}
+
+function renderGoals(){
+  const body = document.getElementById('goalsBody');
+  body.innerHTML = '';
+  state.monthlyGoals.forEach(function(g,gi){
+    const row = document.createElement('div');
+    row.className = 'goal-row';
+    row.innerHTML =
+      '<div class="goal-top"><input class="edit-input" data-gname="'+gi+'" value="'+g.text.replace(/"/g,'&quot;')+'">'+
+      '<button class="del-btn" data-delg="'+gi+'">&times;</button></div>'+
+      '<div class="goal-bottom"><input type="range" class="grange" min="0" max="100" value="'+g.progress+'" data-grange="'+gi+'">'+
+      '<span class="gpct">'+g.progress+'%</span></div>';
+    body.appendChild(row);
+  });
+  body.querySelectorAll('[data-gname]').forEach(function(inp){
+    inp.addEventListener('change', function(){
+      state.monthlyGoals[+inp.dataset.gname].text = inp.value;
+      saveState();
+    });
+  });
+  body.querySelectorAll('[data-delg]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      state.monthlyGoals.splice(+btn.dataset.delg,1);
+      renderGoals(); saveState();
+    });
+  });
+  body.querySelectorAll('[data-grange]').forEach(function(inp){
+    inp.addEventListener('input', function(){
+      const gi = +inp.dataset.grange;
+      state.monthlyGoals[gi].progress = +inp.value;
+      inp.parentElement.querySelector('.gpct').textContent = inp.value+'%';
+    });
+    inp.addEventListener('change', function(){ saveState(); });
+  });
+}
+
+document.getElementById('addGoalBtn').addEventListener('click', function(){
+  state.monthlyGoals.push({text:'New goal', progress:0});
+  renderGoals(); saveState();
+});
+
+function renderBars(){
+  const wrap = document.getElementById('bars');
+  wrap.innerHTML = '';
+  state.days.forEach(function(day){
+    const p = pct(day.tasks.map(function(t){return t.done;}));
+    const col = document.createElement('div');
+    col.className='bar-col';
+    col.innerHTML = '<div class="bar-track"><div class="bar-fill" style="height:'+p+'%"></div></div><span>'+day.name[0]+'</span>';
+    wrap.appendChild(col);
+  });
+}
+
+function renderDonut(){
+  const all = state.days.flatMap(function(d){return d.tasks.map(function(t){return t.done;});});
+  const done = all.filter(Boolean).length;
+  const p = all.length ? Math.round(done/all.length*100) : 0;
+  document.getElementById('donut').style.background = 'conic-gradient(var(--pink-500) '+p+'%, var(--pink-100) 0)';
+  document.getElementById('donutPct').textContent = p+'%';
+  document.getElementById('donutCaption').textContent = done+' / '+all.length+' tasks';
+}
+
+function renderHabits(){
+  const body = document.getElementById('habitBody');
+  body.innerHTML = '';
+  state.habits.forEach(function(h,hi){
+    const tr = document.createElement('tr');
+    const p = pct(h.checks);
+    let dots = '';
+    h.checks.forEach(function(c,di){
+      dots += '<td><span class="dot '+(c?'on':'')+'" data-h="'+hi+'" data-d="'+di+'"></span></td>';
+    });
+    tr.innerHTML = '<td><input class="edit-input" data-hname="'+hi+'" value="'+h.name.replace(/"/g,'&quot;')+'"></td>'+dots+
+      '<td><div class="hbar-wrap"><div class="hbar-track"><div class="hbar-fill" style="width:'+p+'%"></div></div><span class="hpct">'+p+'%</span></div></td>'+
+      '<td><button class="del-btn" data-delh="'+hi+'">&times;</button></td>';
+    body.appendChild(tr);
+  });
+  body.querySelectorAll('[data-h]').forEach(function(dot){
+    dot.addEventListener('click', function(){
+      const hi = +dot.dataset.h, di = +dot.dataset.d;
+      state.habits[hi].checks[di] = !state.habits[hi].checks[di];
+      renderHabits(); saveState();
+    });
+  });
+  body.querySelectorAll('[data-hname]').forEach(function(inp){
+    inp.addEventListener('change', function(){
+      state.habits[+inp.dataset.hname].name = inp.value;
+      saveState();
+    });
+  });
+  body.querySelectorAll('[data-delh]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      state.habits.splice(+btn.dataset.delh,1);
+      renderHabits(); saveState();
+    });
+  });
+}
+
+function renderDays(){
+  const row = document.getElementById('daysRow');
+  row.innerHTML = '';
+  state.days.forEach(function(day,i){
+    const p = pct(day.tasks.map(function(t){return t.done;}));
+    const card = document.createElement('div');
+    card.className='day-card';
+    let tasks = '';
+    day.tasks.forEach(function(t,ti){
+      tasks += '<div class="task-row '+(t.done?'done':'')+'">'+
+        '<span class="dot '+(t.done?'on':'')+'" data-day="'+i+'" data-task="'+ti+'"></span>'+
+        '<input class="edit-input tname" data-tday="'+i+'" data-ttask="'+ti+'" value="'+t.text.replace(/"/g,'&quot;')+'">'+
+        '<button class="del-btn" data-deltday="'+i+'" data-deltt="'+ti+'">&times;</button></div>';
+    });
+    const left = day.tasks.filter(function(t){return !t.done;}).length;
+    card.innerHTML =
+      '<div class="day-head"><div class="dname">'+day.name+'</div></div>'+
+      '<div class="day-body">'+
+        '<div class="ring" style="background:conic-gradient(var(--pink-500) '+p+'%, var(--pink-100) 0)"><div class="ring-inner">'+p+'%</div></div>'+
+        tasks+
+        '<button class="add-btn" data-addt="'+i+'">+ add task</button>'+
+        '<div class="day-foot">'+left+' left</div>'+
+      '</div>';
+    row.appendChild(card);
+  });
+  row.querySelectorAll('[data-task]').forEach(function(dot){
+    dot.addEventListener('click', function(){
+      const d = +dot.dataset.day, t = +dot.dataset.task;
+      state.days[d].tasks[t].done = !state.days[d].tasks[t].done;
+      renderAll();
+    });
+  });
+  row.querySelectorAll('.tname').forEach(function(inp){
+    inp.addEventListener('change', function(){
+      state.days[+inp.dataset.tday].tasks[+inp.dataset.ttask].text = inp.value;
+      saveState();
+    });
+  });
+  row.querySelectorAll('[data-deltday]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      state.days[+btn.dataset.deltday].tasks.splice(+btn.dataset.deltt,1);
+      renderAll();
+    });
+  });
+  row.querySelectorAll('[data-addt]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      state.days[+btn.dataset.addt].tasks.push({text:'New task', done:false});
+      renderAll();
+    });
+  });
+}
+
+document.getElementById('addHabitBtn').addEventListener('click', function(){
+  state.habits.push({name:'New habit', checks:[false,false,false,false,false,false,false]});
+  renderHabits(); saveState();
+});
+
+function renderAll(){
+  renderAvatar();
+  renderTheme();
+  renderMeta();
+  renderGoals();
+  renderBars();
+  renderDonut();
+  renderHabits();
+  renderDays();
+  saveState();
+}
+
+updateGateMode();
+</script>
+</body>
+</html>
