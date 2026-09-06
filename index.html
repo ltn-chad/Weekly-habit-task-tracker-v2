@@ -46,7 +46,7 @@
   .bars{display:flex;align-items:flex-end;gap:8px;height:110px;}
   .bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;}
   .bar-track{width:100%;max-width:22px;height:80px;background:var(--pink-100);border-radius:6px;display:flex;align-items:flex-end;overflow:hidden;margin:0 auto;}
-  .bar-fill{width:100%;background:var(--pink-500);border-radius:6px 6px 0 0;transition:height .25s ease;}
+  .bar-fill{width:100%;background:linear-gradient(180deg, var(--pink-300), var(--pink-500));border-radius:6px 6px 0 0;transition:height .25s ease;}
   .bar-col span{font-size:10px;color:var(--ink-soft);}
   .donut-wrap{display:flex;align-items:center;gap:16px;}
   .donut{width:96px;height:96px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:0 0 auto;transition:background .25s ease;}
@@ -66,7 +66,7 @@
   .dot.on{background:var(--pink-500);border-color:var(--pink-500);box-shadow:0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);}
   .hbar-wrap{display:flex;align-items:center;gap:6px;}
   .hbar-track{flex:1;height:8px;border-radius:4px;background:var(--pink-100);overflow:hidden;min-width:50px;}
-  .hbar-fill{height:100%;background:var(--pink-500);transition:width .25s ease;}
+  .hbar-fill{height:100%;background:linear-gradient(90deg, var(--pink-300), var(--pink-500));transition:width .25s ease;}
   .hpct{font-size:11px;color:var(--ink-soft);min-width:30px;text-align:right;}
   .del-btn{border:none;background:transparent;color:var(--ink-soft);cursor:pointer;font-size:15px;padding:0 4px;line-height:1;}
   .del-btn:hover{color:var(--pink-600);}
@@ -202,12 +202,12 @@
 
   <div class="note" style="display:none" id="noteBox">Edit any text, add or remove habits/tasks — autosaves to your account. <b id="saveBadge" style="color:#a32d2d"></b></div>
 
-  <h1>Weekly habit &amp; task tracker</h1>
+  <h1>🌸 Weekly habit &amp; task tracker</h1>
   <div class="topbar">
-    <div class="chip"><div class="lbl">Start of the week</div><input class="edit-input" id="m-startOfWeek"></div>
-    <div class="chip"><div class="lbl">Weekly focus</div><input class="edit-input" id="m-weeklyFocus"></div>
-    <div class="chip"><div class="lbl">Reward</div><input class="edit-input" id="m-reward"></div>
-    <div class="chip"><div class="lbl">Affirmation</div><input class="edit-input" id="m-affirmation"></div>
+    <div class="chip"><div class="lbl">📅 Start of the week</div><input class="edit-input" id="m-startOfWeek"></div>
+    <div class="chip"><div class="lbl">🎯 Weekly focus</div><input class="edit-input" id="m-weeklyFocus"></div>
+    <div class="chip"><div class="lbl">🎁 Reward</div><input class="edit-input" id="m-reward"></div>
+    <div class="chip"><div class="lbl">💫 Affirmation</div><input class="edit-input" id="m-affirmation"></div>
     <div class="chip" style="flex:0 0 auto;">
       <div class="lbl">Theme colour</div>
       <div style="display:flex;align-items:center;gap:6px;margin-top:3px;">
@@ -218,8 +218,8 @@
   </div>
 
   <div class="progress-section">
-    <div class="card"><h2>Overall progress</h2><div class="bars" id="bars"></div></div>
-    <div class="card"><h2>This week</h2>
+    <div class="card"><h2>📊 Overall progress</h2><div class="bars" id="bars"></div></div>
+    <div class="card"><h2>✨ This week</h2>
       <div class="donut-wrap">
         <div class="donut" id="donut"><div class="donut-inner"><b id="donutPct">0%</b><span>done</span></div></div>
         <div class="donut-caption" id="donutCaption">0 / 0 tasks</div>
@@ -228,7 +228,7 @@
   </div>
 
   <div class="goals-card">
-    <h2 style="font-size:13px;margin:0 0 12px;color:var(--pink-700);font-weight:600;">Monthly goals</h2>
+    <h2 style="font-size:13px;margin:0 0 12px;color:var(--pink-700);font-weight:600;">🌟 Monthly goals</h2>
     <div id="goalsBody"></div>
     <button class="add-btn" id="addGoalBtn">+ add goal</button>
     <div class="chip" style="margin-top:12px;max-width:280px;">
