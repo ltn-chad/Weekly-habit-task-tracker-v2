@@ -30,14 +30,22 @@
   .frame{max-width:1320px;margin:0 auto;background:rgba(255,255,255,.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:28px;padding:26px 22px 22px;border:1px solid rgba(255,255,255,.6);box-shadow:0 20px 60px rgba(0,0,0,.1), 0 0 0 1px color-mix(in srgb, var(--accent) 12%, transparent);position:relative;overflow:hidden;animation:fadeUp .5s ease;}
   .frame::before{content:'';position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg, var(--accent), var(--pink-300), var(--accent));}
   h1{font-size:22px;margin:0 0 14px;font-weight:700;background:linear-gradient(135deg, var(--pink-700), var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent;}
-  .hero-stats{display:flex;flex-wrap:wrap;margin-bottom:20px;border-radius:18px;overflow:hidden;background:linear-gradient(120deg, var(--accent), var(--pink-700));box-shadow:0 12px 30px color-mix(in srgb, var(--accent) 38%, transparent);}
-  .hero-stat{flex:1 1 150px;display:flex;align-items:center;gap:12px;padding:14px 18px;color:#fff;border-right:1px solid rgba(255,255,255,.22);}
-  .hero-stat:last-child{border-right:none;}
-  .hero-icon{font-size:28px;filter:drop-shadow(0 2px 5px rgba(0,0,0,.25));}
-  .hero-num{font-size:21px;font-weight:700;line-height:1.15;}
-  .hero-label{font-size:10px;opacity:.88;text-transform:uppercase;letter-spacing:.05em;}
-  .xp-track{width:76px;height:5px;background:rgba(255,255,255,.32);border-radius:3px;margin-top:5px;overflow:hidden;}
-  .xp-fill{height:100%;background:#fff;border-radius:3px;transition:width .3s ease;}
+  .level-card{
+    display:flex;align-items:center;gap:16px;margin-bottom:20px;padding:16px 20px;border-radius:20px;
+    background:linear-gradient(120deg, var(--accent), #6c5ce7 60%, #ff7eb3);
+    background-size:220% 220%;animation:heroGlow 8s ease infinite;
+    box-shadow:0 14px 34px color-mix(in srgb, var(--accent) 40%, transparent);
+    position:relative;overflow:hidden;
+  }
+  @keyframes heroGlow{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+  .level-badge{font-size:44px;filter:drop-shadow(0 3px 8px rgba(0,0,0,.3));flex:0 0 auto;}
+  .level-info{flex:1;color:#fff;}
+  .level-title{font-size:19px;font-weight:700;}
+  .level-title span{font-size:23px;}
+  .level-sub{font-size:11px;text-transform:uppercase;letter-spacing:.08em;opacity:.85;margin-bottom:8px;font-weight:600;}
+  .xp-track{width:100%;max-width:280px;height:9px;background:rgba(255,255,255,.3);border-radius:5px;overflow:hidden;}
+  .xp-fill{height:100%;background:linear-gradient(90deg,#fff,#ffe066);border-radius:5px;transition:width .4s ease;box-shadow:0 0 10px rgba(255,255,255,.6);}
+  .level-xp{font-size:10.5px;opacity:.85;margin-top:5px;}
   #loading{max-width:1320px;margin:80px auto;text-align:center;color:var(--ink-soft);font-size:14px;}
   .topbar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px;}
   .chip{background:linear-gradient(160deg, var(--pink-50), #fff);border:1px solid var(--pink-150);border-radius:14px;padding:8px 14px;flex:1 1 140px;min-width:130px;box-shadow:inset 0 1px 0 rgba(255,255,255,.8), 0 2px 6px rgba(0,0,0,.03);transition:transform .12s ease,box-shadow .12s ease;}
@@ -109,6 +117,7 @@
   .history-item .hpctbig{font-size:28px;font-weight:700;line-height:1.2;margin:2px 0;background:linear-gradient(135deg,var(--accent),var(--pink-700));-webkit-background-clip:text;background-clip:text;color:transparent;}
   .history-item .htasks{font-size:11px;color:var(--ink-soft);}
   .history-item .hfocus{font-size:12px;color:var(--ink);margin-top:8px;font-style:italic;border-top:1px dashed var(--pink-200);padding-top:8px;}
+  .confetti-piece{position:fixed;top:0;left:0;width:8px;height:8px;pointer-events:none;z-index:300;border-radius:2px;}
 
   .auth-btn{border-radius:10px;padding:8px 16px;font-size:13px;cursor:pointer;transition:transform .08s ease,filter .15s ease,box-shadow .15s ease;border:1px solid transparent;font-family:inherit;}
   .auth-btn:active{transform:scale(.96);}
@@ -140,8 +149,14 @@
   .blob1{width:260px;height:260px;background:var(--accent);top:-70px;left:-60px;}
   .blob2{width:220px;height:220px;background:#6c5ce7;bottom:-50px;right:-40px;animation-delay:2.5s;}
   .blob3{width:180px;height:180px;background:#ffc36c;top:35%;right:8%;animation-delay:5s;}
+  .blob4{width:200px;height:200px;background:#00d2a8;bottom:10%;left:6%;animation-delay:7.5s;}
   @keyframes floaty{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-26px) scale(1.06);}}
-  .auth-card{position:relative;z-index:2;background:rgba(255,255,255,.94);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-radius:28px;padding:30px 26px;max-width:380px;width:100%;box-shadow:0 25px 80px rgba(0,0,0,.35), 0 0 50px color-mix(in srgb, var(--accent) 30%, transparent);border:1px solid rgba(255,255,255,.6);animation:fadeUp .5s ease;text-align:center;}
+  .auth-card{position:relative;z-index:2;background:rgba(255,255,255,.94);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-radius:28px;padding:30px 26px;max-width:380px;width:100%;box-shadow:0 25px 80px rgba(0,0,0,.35), 0 0 60px color-mix(in srgb, var(--accent) 35%, transparent);border:1px solid rgba(255,255,255,.6);animation:fadeUp .5s ease;text-align:center;}
+  .auth-card::before{content:'';position:absolute;inset:-2px;border-radius:30px;padding:2px;z-index:-1;
+    background:linear-gradient(120deg, var(--accent), #6c5ce7, #ffc36c, #00d2a8, var(--accent));
+    background-size:300% 300%;animation:heroGlow 6s linear infinite;
+    -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;opacity:.7;}
   .brand-title{font-size:24px;font-weight:700;background:linear-gradient(135deg, var(--accent), #6c5ce7);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:2px;}
   .brand-sub{font-size:13px;color:var(--ink-soft);margin-bottom:16px;}
   .gate-field{margin-bottom:10px;position:relative;text-align:left;}
@@ -163,6 +178,7 @@
   <div class="blob blob1"></div>
   <div class="blob blob2"></div>
   <div class="blob blob3"></div>
+  <div class="blob blob4"></div>
   <div class="auth-card">
     <div class="brand-title">🌸 Habit Tracker</div>
     <div class="brand-sub" id="gateSubtitle">Create your account to start tracking</div>
@@ -220,20 +236,13 @@
 
   <h1>🌸 Weekly habit &amp; task tracker</h1>
 
-  <div class="hero-stats">
-    <div class="hero-stat">
-      <div class="hero-icon">🔥</div>
-      <div><div class="hero-num" id="streakNum">0</div><div class="hero-label">week streak</div></div>
-    </div>
-    <div class="hero-stat">
-      <div class="hero-icon">⭐</div>
-      <div><div class="hero-num" id="levelNum">1</div><div class="hero-label">level</div>
-        <div class="xp-track"><div class="xp-fill" id="xpFill"></div></div>
-      </div>
-    </div>
-    <div class="hero-stat">
-      <div class="hero-icon">🏆</div>
-      <div><div class="hero-num" id="bestNum">0%</div><div class="hero-label">best week ever</div></div>
+  <div class="level-card">
+    <div class="level-badge" id="levelBadge">🥉</div>
+    <div class="level-info">
+      <div class="level-title">Level <span id="levelNum">1</span></div>
+      <div class="level-sub" id="levelTierName">Starter</div>
+      <div class="xp-track"><div class="xp-fill" id="xpFill"></div></div>
+      <div class="level-xp" id="xpText">0 / 20 XP to next level</div>
     </div>
   </div>
   <div class="topbar">
@@ -880,26 +889,40 @@ document.getElementById('addHabitBtn').addEventListener('click', function(){
   renderHabits(); saveState();
 });
 
-function renderHeroStats(){
+const LEVEL_TIERS = [
+  {min:1, name:'Starter', badge:'🥉'},
+  {min:4, name:'Committed', badge:'🥈'},
+  {min:8, name:'Consistent', badge:'🥇'},
+  {min:13, name:'Disciplined', badge:'💎'},
+  {min:19, name:'Elite', badge:'👑'},
+  {min:26, name:'Legend', badge:'🏆'}
+];
+function tierFor(level){
+  let t = LEVEL_TIERS[0];
+  for(const tier of LEVEL_TIERS){ if(level >= tier.min) t = tier; }
+  return t;
+}
+
+function renderLevel(){
   const hist = state.history || [];
-  let streak = 0;
-  for(let i=0;i<hist.length;i++){
-    if(hist[i].percent >= 70) streak++;
-    else break;
-  }
   const currentTasks = state.days.flatMap(function(d){ return d.tasks; });
   const currentDone = currentTasks.filter(function(t){ return t.done; }).length;
-  const currentPercent = currentTasks.length ? Math.round(currentDone/currentTasks.length*100) : 0;
   const historyDone = hist.reduce(function(sum,h){ return sum + h.done; }, 0);
   const totalXP = historyDone + currentDone;
-  const level = Math.floor(totalXP/20) + 1;
-  const xpIntoLevel = totalXP % 20;
-  const bestPercent = Math.max(currentPercent, hist.reduce(function(m,h){ return Math.max(m,h.percent); }, 0));
 
-  document.getElementById('streakNum').textContent = streak;
+  let level = 1, xpNeeded = 20, remaining = totalXP;
+  while(remaining >= xpNeeded){
+    remaining -= xpNeeded;
+    level++;
+    xpNeeded += 5;
+  }
+  const tier = tierFor(level);
+
+  document.getElementById('levelBadge').textContent = tier.badge;
+  document.getElementById('levelTierName').textContent = tier.name;
   document.getElementById('levelNum').textContent = level;
-  document.getElementById('xpFill').style.width = (xpIntoLevel/20*100)+'%';
-  document.getElementById('bestNum').textContent = bestPercent+'%';
+  document.getElementById('xpFill').style.width = Math.round(remaining/xpNeeded*100)+'%';
+  document.getElementById('xpText').textContent = remaining+' / '+xpNeeded+' XP to next level';
 }
 
 function renderHistory(){
@@ -927,7 +950,7 @@ function renderAll(){
   renderAvatar();
   renderTheme();
   renderMeta();
-  renderHeroStats();
+  renderLevel();
   renderGoals();
   renderBars();
   renderDonut();
