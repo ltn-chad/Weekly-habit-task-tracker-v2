@@ -44,19 +44,17 @@
   .frame::before{content:'';position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg, var(--accent), var(--pink-300), var(--accent));}
   h1{font-size:22px;margin:0 0 14px;font-weight:700;background:linear-gradient(135deg, var(--pink-700), var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent;}
   .snapshot-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:18px;}
-  .snap-tile{border-radius:16px;padding:14px 12px;color:#fff;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,.15);transition:transform .15s ease;}
+  .snap-tile{border-radius:16px;padding:14px 12px;color:#fff;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,.12);transition:transform .15s ease;background:linear-gradient(150deg, var(--accent), var(--pink-700));}
   .snap-tile:hover{transform:translateY(-3px) scale(1.02);}
   .snap-icon{font-size:22px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.25));}
   .snap-label{font-size:10px;text-transform:uppercase;letter-spacing:.06em;opacity:.85;margin-top:4px;}
   .snap-val{font-size:19px;font-weight:700;margin-top:2px;}
   .level-card{
     display:flex;align-items:center;gap:16px;margin-bottom:20px;padding:16px 20px;border-radius:20px;
-    background:linear-gradient(120deg, var(--accent), #6c5ce7 60%, #ff7eb3);
-    background-size:220% 220%;animation:heroGlow 8s ease infinite;
-    box-shadow:0 14px 34px color-mix(in srgb, var(--accent) 40%, transparent);
+    background:linear-gradient(120deg, var(--accent), var(--pink-700));
+    box-shadow:0 14px 34px color-mix(in srgb, var(--accent) 35%, transparent);
     position:relative;overflow:hidden;
   }
-  @keyframes heroGlow{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
   .level-badge{font-size:44px;filter:drop-shadow(0 3px 8px rgba(0,0,0,.3));flex:0 0 auto;}
   .level-info{flex:1;color:#fff;}
   .level-title{font-size:19px;font-weight:700;}
@@ -130,7 +128,7 @@
   .goals-card:hover{box-shadow:0 10px 24px rgba(0,0,0,.07);}
   .goal-row{padding:10px 0;border-top:1px solid var(--pink-100);}
   .goal-row:first-child{border-top:none;padding-top:2px;}
-  .boss-card{background:linear-gradient(160deg,#0f1f3d,#1a3a6b);border-radius:14px;padding:12px 14px;margin-bottom:10px;position:relative;overflow:hidden;border:1px solid var(--gold-soft);}
+  .boss-card{background:linear-gradient(160deg,#211c2c,#2c2438);border-radius:14px;padding:12px 14px;margin-bottom:10px;position:relative;overflow:hidden;border:1px solid var(--gold-soft);}
   .boss-card.defeated{opacity:.55;}
   .boss-top{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
   .boss-icon{font-size:20px;flex:0 0 auto;}
@@ -143,7 +141,7 @@
   .hp-label{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:700;text-shadow:0 1px 2px rgba(0,0,0,.6);}
   .boss-defeated-tag{position:absolute;top:8px;right:10px;font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.05em;}
   .boss-slider{width:100%;accent-color:var(--gold);margin-top:6px;}
-  .dungeon-card{background:linear-gradient(160deg,#0b1a33,#12274a);border:1px solid var(--gold-soft);box-shadow:0 10px 28px rgba(0,0,0,.35);}
+  .dungeon-card{background:linear-gradient(160deg,#1a1622,#221c2e);border:1px solid var(--gold-soft);box-shadow:0 10px 28px rgba(0,0,0,.35);}
   .dungeon-add{border-color:var(--gold-soft);color:var(--gold);}
   .dungeon-add:hover{background:rgba(212,175,55,.12);}
   .loot-grid{display:flex;gap:12px;flex-wrap:wrap;}
@@ -163,6 +161,11 @@
   .stat-track{flex:1;height:10px;background:var(--pink-100);border-radius:5px;overflow:hidden;}
   .stat-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--pink-300),var(--accent));border-radius:5px;transition:width .4s ease;}
   .stat-val{font-size:11px;font-weight:700;color:var(--ink);flex:0 0 34px;text-align:right;}
+  .guild-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;}
+  .guild-card{background:var(--pink-50);border:1px solid var(--pink-150);border-radius:14px;padding:12px;display:flex;align-items:center;gap:10px;position:relative;}
+  .guild-avatar{width:34px;height:34px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;overflow:hidden;flex:0 0 auto;}
+  .guild-name{font-size:12.5px;font-weight:600;}
+  .guild-stats{font-size:10.5px;color:var(--ink-soft);}
   .goal-top{display:flex;align-items:center;gap:6px;margin-bottom:6px;}
   .goal-top .edit-input{font-size:13px;font-weight:500;background:#fff;}
   .goal-bottom{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
@@ -184,8 +187,8 @@
   .history-item .del-btn{position:absolute;top:8px;right:10px;z-index:2;}
   .trend-strip{display:flex;align-items:flex-end;gap:6px;height:48px;margin-bottom:16px;padding:0 2px;}
   .trend-bar{flex:1;max-width:18px;background:linear-gradient(180deg,var(--pink-300),var(--pink-500));border-radius:6px 6px 2px 2px;min-height:4px;box-shadow:0 2px 6px color-mix(in srgb, var(--accent) 25%, transparent);}
-  .month-card{background:linear-gradient(135deg, #2a1140, #4a1f5c 70%);border-radius:20px;padding:18px 20px;position:relative;overflow:hidden;color:#fff;box-shadow:0 14px 34px rgba(74,31,92,.4);border:1px solid var(--gold-soft);}
-  .month-card::after{content:'';position:absolute;top:-50px;right:-50px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle, rgba(212,175,55,.35), transparent 70%);}
+  .month-card{background:linear-gradient(135deg, #1a1622, #2c2438 70%);border-radius:20px;padding:18px 20px;position:relative;overflow:hidden;color:#fff;box-shadow:0 14px 34px rgba(0,0,0,.35);border:1px solid var(--gold-soft);}
+  .month-card::after{content:'';position:absolute;top:-50px;right:-50px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle, rgba(212,175,55,.22), transparent 70%);}
   .month-card h2{color:#fff;position:relative;z-index:1;}
   .month-fields{display:flex;gap:12px;flex-wrap:wrap;margin:12px 0;position:relative;z-index:1;}
   .month-chip{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:9px 14px;flex:1 1 130px;}
@@ -208,12 +211,21 @@
   .ach-item.unlocked{opacity:1;filter:none;background:linear-gradient(160deg,#fff,var(--pink-50));box-shadow:0 4px 12px rgba(0,0,0,.07);}
   .ach-item.unlocked:hover{transform:translateY(-3px);}
   .recap-card{position:relative;overflow:hidden;text-align:center;color:#fff;max-width:340px;width:100%;border-radius:26px;padding:32px 26px;
-    background:linear-gradient(145deg, var(--accent), #6c5ce7 60%, #ff7eb3);box-shadow:0 30px 80px rgba(0,0,0,.4);animation:fadeUp .4s ease;}
-  .recap-shine{position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(120deg, transparent, rgba(255,255,255,.35), transparent);animation:shineSweep 2.2s ease-in-out infinite;}
+    background:linear-gradient(160deg, var(--accent), var(--pink-700));box-shadow:0 30px 80px rgba(0,0,0,.35);animation:fadeUp .4s ease;}
+  .recap-shine{position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(120deg, transparent, rgba(255,255,255,.3), transparent);animation:shineSweep 2.2s ease-in-out infinite;}
   @keyframes shineSweep{0%{left:-60%;}100%{left:130%;}}
   .recap-ring{width:110px;height:110px;border-radius:50%;margin:16px auto;display:flex;align-items:center;justify-content:center;background:conic-gradient(#fff var(--p,0%), rgba(255,255,255,.25) 0);}
-  .recap-ring-inner{width:86px;height:86px;border-radius:50%;background:linear-gradient(145deg, var(--accent), #6c5ce7);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;}
+  .recap-ring-inner{width:86px;height:86px;border-radius:50%;background:linear-gradient(160deg, var(--accent), var(--pink-700));display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;}
   .recap-badge-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+  .wrapped-card{position:relative;max-width:480px;width:100%;border-radius:26px;padding:34px 28px;text-align:center;color:#fff;
+    background:linear-gradient(160deg,#1a1622,#2c2438 60%,#1a1622);box-shadow:0 30px 90px rgba(0,0,0,.5);animation:fadeUp .4s ease;max-height:86vh;overflow:auto;border:1px solid var(--gold-soft);}
+  .wrapped-title{font-size:24px;font-weight:800;color:var(--gold);}
+  .wrapped-sub{font-size:12px;opacity:.75;margin-bottom:20px;}
+  .wrapped-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:14px;}
+  .wrapped-stat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:16px;padding:16px 10px;}
+  .wrapped-icon{font-size:24px;}
+  .wrapped-num{font-size:20px;font-weight:800;margin:4px 0 2px;}
+  .wrapped-label{font-size:10px;opacity:.75;text-transform:uppercase;letter-spacing:.05em;}
   .recap-badge{background:rgba(255,255,255,.18);border-radius:12px;padding:8px 10px;font-size:12px;}
   .ach-icon{font-size:26px;margin-bottom:6px;}
   .ach-name{font-size:11.5px;font-weight:700;color:var(--ink);}
@@ -238,27 +250,25 @@
 
   #authGate{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:20px;overflow:hidden;
     background:
-      radial-gradient(circle at 15% 20%, color-mix(in srgb, var(--accent) 60%, #6c5ce7) 0%, transparent 45%),
-      radial-gradient(circle at 85% 25%, color-mix(in srgb, var(--accent) 75%, #ff7eb3) 0%, transparent 45%),
-      radial-gradient(circle at 50% 90%, color-mix(in srgb, var(--accent) 45%, #ffc36c) 0%, transparent 45%),
-      linear-gradient(135deg, #201530, #3a2050 60%, #1c1030);
-    background-size:180% 180%;
-    animation:gateBg 22s ease infinite;
+      radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--accent) 35%, transparent) 0%, transparent 55%),
+      radial-gradient(circle at 80% 80%, color-mix(in srgb, var(--accent) 25%, transparent) 0%, transparent 55%),
+      linear-gradient(150deg, #14101c, #1e1830 60%, #14101c);
+    background-size:160% 160%;
+    animation:gateBg 26s ease infinite;
   }
   @keyframes gateBg{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
-  .blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5;animation:floaty 11s ease-in-out infinite;pointer-events:none;}
-  .blob1{width:260px;height:260px;background:var(--accent);top:-70px;left:-60px;}
-  .blob2{width:220px;height:220px;background:#6c5ce7;bottom:-50px;right:-40px;animation-delay:2.5s;}
-  .blob3{width:180px;height:180px;background:#ffc36c;top:35%;right:8%;animation-delay:5s;}
-  .blob4{width:200px;height:200px;background:#00d2a8;bottom:10%;left:6%;animation-delay:7.5s;}
-  @keyframes floaty{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-26px) scale(1.06);}}
-  .auth-card{position:relative;z-index:2;background:rgba(255,255,255,.94);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-radius:28px;padding:30px 26px;max-width:380px;width:100%;box-shadow:0 25px 80px rgba(0,0,0,.35), 0 0 60px color-mix(in srgb, var(--accent) 35%, transparent);border:1px solid rgba(255,255,255,.6);animation:fadeUp .5s ease;text-align:center;}
-  .auth-card::before{content:'';position:absolute;inset:-2px;border-radius:30px;padding:2px;z-index:-1;
-    background:linear-gradient(120deg, var(--accent), #6c5ce7, #ffc36c, #00d2a8, var(--accent));
-    background-size:300% 300%;animation:heroGlow 6s linear infinite;
+  .blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:.28;animation:floaty 13s ease-in-out infinite;pointer-events:none;background:var(--accent);}
+  .blob1{width:280px;height:280px;top:-80px;left:-70px;}
+  .blob2{width:240px;height:240px;bottom:-60px;right:-50px;animation-delay:3s;}
+  .blob3{display:none;}
+  .blob4{display:none;}
+  @keyframes floaty{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-22px) scale(1.05);}}
+  .auth-card{position:relative;z-index:2;background:rgba(255,255,255,.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-radius:26px;padding:30px 26px;max-width:380px;width:100%;box-shadow:0 25px 70px rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.6);animation:fadeUp .5s ease;text-align:center;}
+  .auth-card::before{content:'';position:absolute;inset:-1px;border-radius:27px;padding:1px;z-index:-1;
+    background:linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 40%, transparent));
     -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite:xor;mask-composite:exclude;opacity:.7;}
-  .brand-title{font-size:24px;font-weight:700;background:linear-gradient(135deg, var(--accent), #6c5ce7);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:2px;}
+    -webkit-mask-composite:xor;mask-composite:exclude;opacity:.6;}
+  .brand-title{font-size:23px;font-weight:700;color:var(--pink-700);margin-bottom:2px;}
   .brand-sub{font-size:13px;color:var(--ink-soft);margin-bottom:16px;}
   .gate-field{margin-bottom:10px;position:relative;text-align:left;}
   .gate-field input{width:100%;border:1px solid var(--pink-200);border-radius:12px;padding:11px 14px;font-size:14px;font-family:inherit;}
@@ -330,6 +340,22 @@
   </div>
 </div>
 
+<div id="wrappedModal" style="display:none;position:fixed;inset:0;z-index:70;background:rgba(20,10,30,.7);align-items:center;justify-content:center;padding:20px;">
+  <div class="wrapped-card">
+    <button class="auth-btn ghost" id="closeWrappedBtn" style="position:absolute;top:14px;right:14px;">Close</button>
+    <div class="wrapped-title">🎊 Your Wrapped</div>
+    <div class="wrapped-sub" id="wrappedRange">—</div>
+    <div class="wrapped-grid">
+      <div class="wrapped-stat"><div class="wrapped-icon">📅</div><div class="wrapped-num" id="wpWeeks">0</div><div class="wrapped-label">weeks tracked</div></div>
+      <div class="wrapped-stat"><div class="wrapped-icon">🏆</div><div class="wrapped-num" id="wpBest">0%</div><div class="wrapped-label" id="wpBestWeek">best week</div></div>
+      <div class="wrapped-stat"><div class="wrapped-icon">🔥</div><div class="wrapped-num" id="wpStreak">0</div><div class="wrapped-label">longest streak</div></div>
+      <div class="wrapped-stat"><div class="wrapped-icon">✅</div><div class="wrapped-num" id="wpTasks">0</div><div class="wrapped-label">tasks completed</div></div>
+      <div class="wrapped-stat"><div class="wrapped-icon">💪</div><div class="wrapped-num" id="wpTopHabit">—</div><div class="wrapped-label">most consistent habit</div></div>
+      <div class="wrapped-stat"><div class="wrapped-icon">💰</div><div class="wrapped-num" id="wpSaved">0</div><div class="wrapped-label">total saved</div></div>
+    </div>
+  </div>
+</div>
+
 <div id="recapModal" style="display:none;position:fixed;inset:0;z-index:70;background:rgba(20,10,30,.65);align-items:center;justify-content:center;padding:20px;">
   <div class="recap-card">
     <div class="recap-shine"></div>
@@ -359,16 +385,16 @@
 
 
   <div class="snapshot-grid">
-    <div class="snap-tile" style="background:linear-gradient(135deg,#ff6b6b,#ffd166);">
+    <div class="snap-tile">
       <div class="snap-icon">🔥</div><div class="snap-label">Streak</div><div class="snap-val" id="snapStreak">0</div>
     </div>
-    <div class="snap-tile" style="background:linear-gradient(135deg,#556fb5,#4ecdc4);">
+    <div class="snap-tile">
       <div class="snap-icon">⭐</div><div class="snap-label">Level</div><div class="snap-val" id="snapLevel">1</div>
     </div>
-    <div class="snap-tile" style="background:linear-gradient(135deg,#a78bfa,#f472b6);">
+    <div class="snap-tile">
       <div class="snap-icon">📈</div><div class="snap-label">This week</div><div class="snap-val" id="snapPercent">0%</div>
     </div>
-    <div class="snap-tile" style="background:linear-gradient(135deg,#059669,#34d399);">
+    <div class="snap-tile">
       <div class="snap-icon">💰</div><div class="snap-label">Saved</div><div class="snap-val" id="snapSaved">0</div>
     </div>
   </div>
@@ -390,6 +416,16 @@
     <div class="stat-row"><span class="stat-icon">⚔️</span><span class="stat-name">Discipline</span><div class="stat-track"><div class="stat-fill" id="statDiscipline"></div></div><span class="stat-val" id="statDisciplineVal">0%</span></div>
     <div class="stat-row"><span class="stat-icon">🔥</span><span class="stat-name">Momentum</span><div class="stat-track"><div class="stat-fill" id="statMomentum"></div></div><span class="stat-val" id="statMomentumVal">0</span></div>
     <div class="stat-row"><span class="stat-icon">💰</span><span class="stat-name">Wealth</span><div class="stat-track"><div class="stat-fill" id="statWealth"></div></div><span class="stat-val" id="statWealthVal">0</span></div>
+  </div>
+
+  <div class="goals-card">
+    <h2 style="font-size:13px;margin:0 0 12px;color:var(--pink-700);font-weight:600;">🛡️ Guild</h2>
+    <div style="display:flex;gap:8px;margin-bottom:12px;">
+      <input class="edit-input" id="friendInput" placeholder="Add a friend by username" style="background:#fff;border:1px solid var(--pink-200);border-radius:10px;padding:8px 12px;">
+      <button class="add-btn" id="addFriendBtn" style="width:auto;margin-top:0;white-space:nowrap;">+ Add</button>
+    </div>
+    <div id="guildMsg" style="font-size:11px;color:var(--ink-soft);margin-bottom:8px;"></div>
+    <div class="guild-grid" id="guildBody"></div>
   </div>
 
   <div class="topbar">
@@ -466,7 +502,10 @@
   </div>
 
   <div class="goals-card" id="historyCard" style="display:none;">
-    <h2 style="font-size:13px;margin:0 0 12px;color:var(--pink-700);font-weight:600;">📖 Quest History</h2>
+    <h2 style="font-size:13px;margin:0 0 12px;color:var(--pink-700);font-weight:600;display:flex;align-items:center;justify-content:space-between;">
+      <span>📖 Quest History</span>
+      <button type="button" class="auth-btn link" id="wrappedBtn" style="padding:2px 0;">🎊 Yearly Wrapped</button>
+    </h2>
     <div class="trend-strip" id="trendStrip"></div>
     <div id="historyBody" class="history-grid"></div>
   </div>
@@ -492,6 +531,7 @@ function defaultState(){
     weekKey: currentTaskWeekKey(),
     freezeAvailable: true,
     achievements: [],
+    friends: [],
     finance: {income: 0, spending: 0},
     totalSaved: 0,
     monthKey: currentMonthKey(),
@@ -610,7 +650,7 @@ function applyResets(){
       snapshotHabits: JSON.parse(JSON.stringify(state.habits)),
       snapshotDebuffs: JSON.parse(JSON.stringify(state.debuffs))
     });
-    if(state.history.length > 12) state.history = state.history.slice(0,12);
+    if(state.history.length > 52) state.history = state.history.slice(0,52);
 
     state.meta.reflection = '';
     state.finance = {income:0, spending:0};
@@ -635,6 +675,7 @@ function fillDefaults(){
     {name:'Late night screen time', checks:[false,false,false,false,false,false,false]}
   ];
   if(!state.meta.monthlyReward) state.meta.monthlyReward = '';
+  if(!state.friends) state.friends = [];
   if(!state.weekKey) state.weekKey = currentTaskWeekKey();
   if(!state.history) state.history = [];
   if(state.freezeAvailable === undefined) state.freezeAvailable = true;
@@ -976,6 +1017,21 @@ async function saveState(){
   }catch(e){
     if(badge) badge.textContent = 'Sync failed — check your connection (kept locally as backup)';
   }
+  try{
+    const hist = state.history || [];
+    const historyDone = hist.reduce(function(sum,h){ return sum + h.done; }, 0);
+    const currentTasks = state.days.flatMap(function(d){ return d.tasks; });
+    const currentDone = currentTasks.filter(function(t){ return t.done; }).length;
+    let level = 1, xpNeeded = 20, remaining = historyDone + currentDone;
+    while(remaining >= xpNeeded){ remaining -= xpNeeded; level++; xpNeeded += 5; }
+    await db.collection('publicProfiles').doc(currentUser.uid).set({
+      username: displayNameFor(currentUser),
+      level: level,
+      streak: computeStreak(),
+      avatar: state.avatar || '🙂',
+      avatarImage: state.avatarImage || ''
+    });
+  }catch(e){ /* guild profile sync is best-effort, never blocks the real save */ }
 }
 
 function spawnXpPopup(x, y){
@@ -1159,7 +1215,10 @@ function renderHabits(){
     h.checks.forEach(function(c,di){
       dots += '<td><span class="dot '+(c?'on':'')+'" data-h="'+hi+'" data-d="'+di+'"></span></td>';
     });
-    tr.innerHTML = '<td><input class="edit-input" data-hname="'+hi+'" value="'+h.name.replace(/"/g,'&quot;')+'"></td>'+dots+
+    const hStreak = computeHabitStreak(h.name);
+    tr.innerHTML = '<td style="display:flex;align-items:center;gap:5px;"><input class="edit-input" data-hname="'+hi+'" value="'+h.name.replace(/"/g,'&quot;')+'" style="flex:1;">'+
+      (hStreak > 0 ? '<span style="font-size:10px;color:var(--ink-soft);white-space:nowrap;">🔥'+hStreak+'</span>' : '')+
+      '</td>'+dots+
       '<td><div class="hbar-wrap"><div class="hbar-track"><div class="hbar-fill" style="width:'+p+'%"></div></div><span class="hpct">'+p+'%</span></div></td>'+
       '<td><button class="del-btn" data-delh="'+hi+'">&times;</button></td>';
     body.appendChild(tr);
@@ -1338,6 +1397,77 @@ function computeStreak(){
   return streak;
 }
 
+function computeHabitStreak(habitName){
+  const hist = state.history || [];
+  let streak = 0;
+  for(let i=0;i<hist.length;i++){
+    const snap = hist[i].snapshotHabits;
+    if(!snap) break;
+    const h = snap.find(function(x){ return x.name === habitName; });
+    if(!h) break;
+    const doneCount = h.checks.filter(Boolean).length;
+    if(doneCount >= 5) streak++;
+    else break;
+  }
+  return streak;
+}
+
+function openWrapped(){
+  const hist = state.history || [];
+  if(!hist.length){
+    document.getElementById('wrappedRange').textContent = 'No weeks tracked yet — come back after your first week.';
+    document.getElementById('wpWeeks').textContent = '0';
+    document.getElementById('wpBest').textContent = '0%';
+    document.getElementById('wpBestWeek').textContent = 'best week';
+    document.getElementById('wpStreak').textContent = '0';
+    document.getElementById('wpTasks').textContent = '0';
+    document.getElementById('wpTopHabit').textContent = '—';
+    document.getElementById('wpSaved').textContent = '0';
+    document.getElementById('wrappedModal').style.display = 'flex';
+    return;
+  }
+  const oldest = hist[hist.length-1];
+  const newest = hist[0];
+  document.getElementById('wrappedRange').textContent = formatWeekRange(oldest.weekKey).split(' – ')[0]+' — '+formatWeekRange(newest.weekKey).split(' – ')[1];
+
+  let best = hist[0];
+  hist.forEach(function(h){ if(h.percent > best.percent) best = h; });
+
+  let longestStreak = 0, running = 0;
+  for(let i=hist.length-1;i>=0;i--){
+    if(hist[i].percent >= 40 || hist[i].frozen){ running++; longestStreak = Math.max(longestStreak, running); }
+    else running = 0;
+  }
+
+  const totalTasks = hist.reduce(function(s,h){ return s + h.done; }, 0);
+
+  const habitTotals = {};
+  hist.forEach(function(h){
+    (h.snapshotHabits||[]).forEach(function(hb){
+      habitTotals[hb.name] = (habitTotals[hb.name]||0) + hb.checks.filter(Boolean).length;
+    });
+  });
+  let topHabit = '—', topCount = -1;
+  Object.keys(habitTotals).forEach(function(name){
+    if(habitTotals[name] > topCount){ topCount = habitTotals[name]; topHabit = name; }
+  });
+
+  const totalSaved = hist.reduce(function(s,h){ return s + (h.net||0); }, 0) + (state.monthlyTotalSaved||0);
+
+  document.getElementById('wpWeeks').textContent = hist.length;
+  document.getElementById('wpBest').textContent = best.percent+'%';
+  document.getElementById('wpBestWeek').textContent = 'best week ('+formatWeekRange(best.weekKey)+')';
+  document.getElementById('wpStreak').textContent = longestStreak;
+  document.getElementById('wpTasks').textContent = totalTasks;
+  document.getElementById('wpTopHabit').textContent = topHabit;
+  document.getElementById('wpSaved').textContent = (totalSaved>=0?'+':'')+totalSaved;
+  document.getElementById('wrappedModal').style.display = 'flex';
+}
+document.getElementById('wrappedBtn').addEventListener('click', openWrapped);
+document.getElementById('closeWrappedBtn').addEventListener('click', function(){
+  document.getElementById('wrappedModal').style.display = 'none';
+});
+
 function renderLevel(){
   const hist = state.history || [];
   const currentTasks = state.days.flatMap(function(d){ return d.tasks; });
@@ -1378,6 +1508,63 @@ function renderSnapshot(){
   document.getElementById('snapLevel').textContent = level;
   document.getElementById('snapPercent').textContent = percent+'%';
   document.getElementById('snapSaved').textContent = (saved>=0?'+':'')+saved;
+}
+
+async function addFriend(){
+  const input = document.getElementById('friendInput');
+  const uname = input.value.trim().toLowerCase();
+  const msg = document.getElementById('guildMsg');
+  if(!uname) return;
+  if(!state.friends) state.friends = [];
+  if(state.friends.indexOf(uname) !== -1){ msg.textContent = 'Already in your guild.'; return; }
+  try{
+    const doc = await db.collection('usernames').doc(uname).get();
+    if(!doc.exists){ msg.textContent = 'No account with that username.'; return; }
+    state.friends.push(uname);
+    input.value = '';
+    msg.textContent = '';
+    renderGuild();
+    saveState();
+  }catch(e){ msg.textContent = 'Could not look that username up right now.'; }
+}
+document.getElementById('addFriendBtn').addEventListener('click', addFriend);
+document.getElementById('friendInput').addEventListener('keydown', function(e){ if(e.key === 'Enter') addFriend(); });
+
+async function renderGuild(){
+  const body = document.getElementById('guildBody');
+  if(!state.friends || !state.friends.length){
+    body.innerHTML = '<div style="font-size:12px;color:var(--ink-soft);">No guildmates yet — add a friend by their username above.</div>';
+    return;
+  }
+  body.innerHTML = state.friends.map(function(uname){ return '<div class="guild-card" data-uname="'+uname+'"><div class="guild-avatar">🙂</div><div><div class="guild-name">'+uname+'</div><div class="guild-stats">loading…</div></div><button class="del-btn" data-delfriend="'+uname+'" style="position:absolute;top:6px;right:8px;">&times;</button></div>'; }).join('');
+  body.querySelectorAll('[data-delfriend]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      state.friends = state.friends.filter(function(f){ return f !== btn.dataset.delfriend; });
+      renderGuild(); saveState();
+    });
+  });
+  for(const uname of state.friends){
+    try{
+      const unameDoc = await db.collection('usernames').doc(uname).get();
+      if(!unameDoc.exists) continue;
+      const uid = unameDoc.data().uid;
+      const profile = await db.collection('publicProfiles').doc(uid).get();
+      const card = body.querySelector('[data-uname="'+uname+'"]');
+      if(!card) continue;
+      if(profile.exists){
+        const p = profile.data();
+        card.querySelector('.guild-stats').textContent = 'Lvl '+p.level+' · 🔥'+(p.streak||0);
+        const av = card.querySelector('.guild-avatar');
+        if(p.avatarImage) av.innerHTML = '<img src="'+p.avatarImage+'" style="width:100%;height:100%;object-fit:cover;">';
+        else av.textContent = p.avatar || '🙂';
+      }else{
+        card.querySelector('.guild-stats').textContent = 'No data yet';
+      }
+    }catch(e){
+      const card = body.querySelector('[data-uname="'+uname+'"]');
+      if(card) card.querySelector('.guild-stats').textContent = 'Unavailable';
+    }
+  }
 }
 
 function renderStats(){
@@ -1470,7 +1657,7 @@ function renderHistory(){
     return '<div class="trend-bar" style="height:'+Math.max(h.percent,3)+'%" title="'+formatWeekRange(h.weekKey)+': '+h.percent+'%"></div>';
   }).join('');
 
-  body.innerHTML = state.history.map(function(h, idx){
+  body.innerHTML = state.history.slice(0,12).map(function(h, idx){
     const tier = h.percent === 100 ? {badge:'🏆',color:'#f5b301'} : h.percent >= 80 ? {badge:'🥇',color:'#e0a72a'} : h.percent >= 50 ? {badge:'🥈',color:'#9aa5b1'} : {badge:'🥉',color:'#c17a4a'};
     const prev = state.history[idx+1];
     let trend = '<span style="color:#9a9a9a;">– no change</span>';
@@ -1512,6 +1699,7 @@ function renderAll(){
   renderLevel();
   renderSnapshot();
   renderStats();
+  renderGuild();
   renderAchievements();
   renderGoals();
   renderBars();
